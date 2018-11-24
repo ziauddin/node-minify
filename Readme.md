@@ -52,32 +52,53 @@ npm install node-minify # OR yarn add node-minify
 ## Quick Start
 
 ```js
-var compressor = require('node-minify');
+const minify = require('@node-minify/core');
+const gcc = require('@node-minify/google-closure-compiler');
+const uglifyJS = require('@node-minify/uglify-js');
 
 // Using Google Closure Compiler
-compressor.minify({
-  compressor: 'gcc',
+minify({
+  compressor: gcc,
   input: 'foo.js',
   output: 'bar.js',
   callback: function(err, min) {}
 });
 
 // Using UglifyJS with wildcards
-compressor.minify({
-  compressor: 'uglifyjs',
+minify({
+  compressor: uglifyJS,
   input: './**/*.js',
   output: 'bar.js',
   callback: function(err, min) {}
 });
 
 // With Promise
-var promise = compressor.minify({
-  compressor: 'uglifyjs',
+var promise = minify({
+  compressor: uglifyJS,
   input: './**/*.js',
   output: 'bar.js'
 });
 
 promise.then(function(min) {});
+
+// Async/Await
+async function doMinify() {
+  const min = await minify({ compressor: babelMinify, input: 'foo.js', output: 'bar.js' });
+}
+```
+
+### ES2015+
+
+```js
+import minify from '@node-minify/core';
+import babelMinify from '@node-minify/babel-minify';
+
+minify({
+  compressor: babelMinify,
+  input: 'foo.js',
+  output: 'bar.js',
+  callback: function(err, min) {}
+});
 ```
 
 [More examples](https://github.com/srod/node-minify/blob/master/examples/server.js)
